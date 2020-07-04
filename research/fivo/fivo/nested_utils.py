@@ -42,7 +42,7 @@ def map_nested(map_fn, nested):
       example map_nested(lambda x: x+1, [1, (3, 4.3)]) returns [2, (4, 5.3)].
   """
   out = map(map_fn, nest.flatten(nested))
-  return nest.pack_sequence_as(nested, out)
+  return nest.pack_sequence_as(nested, list(out))
 
 
 def tile_tensors(tensors, multiples):
