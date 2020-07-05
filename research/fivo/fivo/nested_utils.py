@@ -118,8 +118,7 @@ def tas_for_tensors(tensors, length, **kwargs):
       in 'tensors'.
   """
   def map_fn(x):
-    ta = tf.TensorArray(x.dtype, length,
-                        name=x.name.split(':')[0] + '_ta', **kwargs)
+    ta = tf.TensorArray(x.dtype, length, **kwargs)
     return ta.unstack(x[:length, :])
   return map_nested(map_fn, tensors)
 
