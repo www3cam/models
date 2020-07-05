@@ -231,6 +231,8 @@ class NonstationaryLinearDistribution(object):
 
   def __init__(self,
                num_timesteps,
+               numparticles,
+               states,
                inputs_per_timestep=None,
                outputs_per_timestep=None,
                initializers=None,
@@ -257,6 +259,8 @@ class NonstationaryLinearDistribution(object):
         defines the output distribution, e.g. Normal.
       dtype: The dtype of the weights and biases.
     """
+    self.n_particles = numparticles
+    self.states1 = states
     if not initializers:
       initializers = DEFAULT_INITIALIZERS
     if not inputs_per_timestep:
@@ -311,8 +315,9 @@ class NonstationaryLinearDistribution(object):
     shape = self.shapes.read(t)
     w = tf.reshape(w, shape)
     b = tf.reshape(b, [shape[1], 1])
-    log_variance = self.log_variances.read(t)
-    scale = tf.sqrt(tf.maximum(tf.exp(log_variance), self.variance_min))
+    #log_variance = self.log_variances.read(t)
+    #scale = tf.sqrt(tf.maximum(tf.exp(log_variance), self.variance_min))
+    scale = tf.ones((self.states1, self.n_particles))
     loc = tf.matmul(w, inputs, transpose_a=True) + b
     return self.output_distribution(loc=loc, scale=scale)
 
