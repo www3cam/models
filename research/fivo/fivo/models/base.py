@@ -317,8 +317,8 @@ class NonstationaryLinearDistribution(object):
     b = tf.reshape(b, [shape[1], 1])
     #log_variance = self.log_variances.read(t)
     #scale = tf.sqrt(tf.maximum(tf.exp(log_variance), self.variance_min))
-    scale = tf.ones((self.states1, self.n_particles))
-    loc = tf.matmul(w, inputs, transpose_a=True) + b
+    scale = tf.ones((self.n_particles, self.states1))
+    loc = tf.reshape(tf.matmul(w, inputs, transpose_a=True) + b,(self.n_particles, self.states1))
     return self.output_distribution(loc=loc, scale=scale)
 
 
