@@ -85,7 +85,7 @@ def where_tensors(condition, x_tensors, y_tensors):
   flat_x = nest.flatten(x_tensors)
   flat_y = nest.flatten(y_tensors)
   result = [tf.where(condition, x, y) for x, y in
-            itertools.izip(flat_x, flat_y)]
+            zip(flat_x, flat_y)]
 
   return nest.pack_sequence_as(x_tensors, result)
 
