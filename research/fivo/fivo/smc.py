@@ -80,9 +80,13 @@ def multinomial_resampling(log_weights, states, num_particles, batch_size,
   # correct the indices we multiply by the batch_size and add the proper offset.
   # Crucially, when ancestor_inds is flattened the layout of the batch is
   # maintained.
-  offset = tf.expand_dims(tf.range(batch_size), 0)
-  ancestor_inds = tf.reshape(ancestors * batch_size + offset, [-1])
+  if batchsize == 1: 
+    ancestor_inds = tf.reshape(ancestors, [-1]) #* batch_size + offset, [-1])
 
+  else: 
+    offset = tf.expand_dims(tf.range(batch_size), 0)
+    ancestor_inds = tf.reshape(ancestors * batch_size + offset, [-1])
+    
   resampled_states = nested.gather_tensors(states, ancestor_inds)
   return resampled_states
 
