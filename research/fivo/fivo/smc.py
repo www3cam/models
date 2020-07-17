@@ -65,6 +65,10 @@ def multinomial_resampling(log_weights, states, num_particles, batch_size,
     resampled_states: A nested list of [batch_size*num_particles, data_size]
       Tensors resampled via multinomial sampling.
   """
+  # Normalize the log probabilities to avoid infs
+  mean = tf.stop_gradient(tf.reduce_mean(log_weights))
+  log_weights = log_weights + mean
+  
   # Calculate the ancestor indices via resampling. Because we maintain the
   # log unnormalized weights, we pass the weights in as logits, allowing
   # the distribution object to apply a softmax and normalize them.
