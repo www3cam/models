@@ -32,7 +32,7 @@ def ess_criterion(log_weights, unused_t):
   ess_num = 2 * tf.reduce_logsumexp(log_weights, axis=0)
   ess_denom = tf.reduce_logsumexp(2 * log_weights, axis=0)
   log_ess = ess_num - ess_denom
-  return log_ess <= tf.log(tf.to_float(num_particles) / 2.0)
+  return log_ess <= tf.math.log(tf.to_float(num_particles) / 2.0)
 
 
 def never_resample_criterion(log_weights, unused_t):
