@@ -20,7 +20,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+import tensorflow_probability as tfp
+
+tfd = tfp.distributions
 
 import fivo.nested_utils as nested
 
@@ -73,7 +76,7 @@ def multinomial_resampling(log_weights, states, num_particles, batch_size,
   # log unnormalized weights, we pass the weights in as logits, allowing
   # the distribution object to apply a softmax and normalize them.
   resampling_parameters = tf.transpose(log_weights, perm=[1, 0])
-  resampling_dist = tf.contrib.distributions.Categorical(
+  resampling_dist = tfd.Categorical(
       logits=resampling_parameters)
   ancestors = tf.stop_gradient(
       resampling_dist.sample(sample_shape=num_particles, seed=random_seed))
