@@ -24,7 +24,7 @@ import tensorflow as tf
 
 from fivo import nested_utils as nested
 
-tfd = tf.contrib.distributions
+tfd = tf.compat.v1.distributions
 
 
 class ELBOTrainableSequenceModel(object):
@@ -81,7 +81,7 @@ class ELBOTrainableSequenceModel(object):
     """
     raise NotImplementedError("propose_and_weight not yet implemented.")
 
-DEFAULT_INITIALIZERS = {"w": tf.contrib.layers.xavier_initializer(),
+DEFAULT_INITIALIZERS = {"w": tf.initializers.GlorotUniform(),
                         "b": tf.zeros_initializer()}
 
 
